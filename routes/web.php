@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\PackageBankController;
 use App\Http\Controllers\PackageBookingController;
 use App\Http\Controllers\PackageTourController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +21,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Front routes
+//Menampilkan halaman utama
+Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
+Route::get('/details/{packageTour:slug}', [FrontController::class, 'details'])->name('front.details');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -47,6 +52,14 @@ Route::middleware('auth')->group(function () {
         Route::patch('/book/payment/{packageBooking}/save', [FrontController::class, 'book_payment_store'])->name('front.book_payment_store');
 
         Route::get('/book-finish/{packageBooking}', [FrontController::class, 'book_finish'])->name('front.book_finish');
+    });
+
+    Route::prefix('dashboard.')->name('dashboard.')->group(function(){
+       Route::middleware('can:view orders')->group(function(){
+        Route::get('/my-bookings', [DashboardController::class, 'my_bookings'])->name('bookings');
+
+        Route::get('/my-bookings/details/{packageBooking}', [DashboardController::class, 'booking_details'])->name('bookings.details');
+       }); 
     });
 
     // Admin routes
