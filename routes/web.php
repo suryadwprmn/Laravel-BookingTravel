@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/book-finish/{packageBooking}', [FrontController::class, 'book_finish'])->name('front.book_finish');
     });
 
-    Route::prefix('dashboard.')->name('dashboard.')->group(function(){
+    Route::prefix('dashboard')->name('dashboard.')->group(function(){
        Route::middleware('can:view orders')->group(function(){
         Route::get('/my-bookings', [DashboardController::class, 'my_bookings'])->name('bookings');
 
@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Admin routes
-    Route::prefix('admin.')->group(function(){
+    Route::prefix('admin')->name('admin.')->group(function(){
         // Category routes
         //Ini adalah route yang hanya bisa diakses oleh user yang memiliki permission 'manage categories'
         Route::middleware('can:manage categories')->group(function(){
@@ -72,17 +72,17 @@ Route::middleware('auth')->group(function () {
 
         // Package routes
         Route::middleware('can:manage packages')-> group(function(){
-            Route::resource('packages',PackageTourController::class);
+            Route::resource('package_tours',PackageTourController::class);
         });
 
         // Package Bank routes
-        Route::middleware('can:manage packages banks')-> group(function(){
+        Route::middleware('can:manage package banks')-> group(function(){
             Route::resource('package_banks', PackageBankController::class);
         });
 
         // Package Booking routes
         Route::middleware('can:manage transactions')->group(function(){
-            Route::resource('transactions', PackageBookingController::class);
+            Route::resource('package_bookings', PackageBookingController::class);
         });
 
 
