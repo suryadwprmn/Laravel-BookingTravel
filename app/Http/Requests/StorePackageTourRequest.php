@@ -11,7 +11,7 @@ class StorePackageTourRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,13 +24,13 @@ class StorePackageTourRequest extends FormRequest
         return [
             //
             'name' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
+            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg'],
             'category_id' => ['required', 'integer'],
             'price' => ['required', 'integer'],
             'location' => ['required', 'string', 'max:255'],
             'days' => ['required', 'integer'],
             'about' => ['required', 'string', 'max:255'],
-            'package_photos.*' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
+            'package_photos.*' => ['required', 'image', 'mimes:png,jpg,jpeg'],
         ];
     }
 }

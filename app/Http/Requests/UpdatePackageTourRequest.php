@@ -11,7 +11,7 @@ class UpdatePackageTourRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdatePackageTourRequest extends FormRequest
         return [
             //
             'name' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
+            'thumbnail' => ['sometimes', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
             'category_id' => ['required', 'integer'],
             'price' => ['required', 'integer'],
             'location' => ['required', 'string', 'max:255'],
