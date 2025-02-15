@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
 
         Route::patch('/book/payment/{packageBooking}/save', [FrontController::class, 'book_payment_store'])->name('front.book_payment_store');
 
-        Route::get('/book-finish/{packageBooking}', [FrontController::class, 'book_finish'])->name('front.book_finish');
+        Route::get('/book-finish', [FrontController::class, 'book_finish'])->name('front.book_finish');
     });
 
     Route::prefix('dashboard')->name('dashboard.')->group(function(){

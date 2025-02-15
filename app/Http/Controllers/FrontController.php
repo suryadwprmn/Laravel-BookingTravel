@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePackageBookingCheckoutRequest;
 use App\Http\Requests\StorePackageBookingRequest;
 use App\Http\Requests\UpdatePackageBookingRequest;
 use App\Models\PackageBank;
@@ -97,5 +98,29 @@ class FrontController extends Controller
             ]);
         });
         return redirect()-> route('front.book_payment', $packageBooking->id);
+    }
+
+    public function book_payment(PackageBooking $packageBooking){
+        return view('front.book_payment', compact('packageBooking'));
+    }
+
+    public function book_payment_store(StorePackageBookingCheckoutRequest $request, PackageBooking $packageBooking){
+         //validasi user apakah sudah login atau belum
+         $user = Auth::user();
+         if($packageBooking->user_id != $user ->id) {
+             return abort(403);
+         }
+         DB::transaction(function () use ($request, $user, $packageBooking){
+            $validated = $request->validated();
+            if($request->hasFile('proof')){
+                $validated['proof'] = $request->file('proof')->store('assets/bukti-bayar', 'public');
+            }
+            $packageBooking -> update($validated);
+         });
+        return redirect()-> route('front.book_finish');
+    }
+
+    public function book_finish(){
+        return view('front.finish');
     }
 }
