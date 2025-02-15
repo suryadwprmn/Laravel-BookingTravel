@@ -16,11 +16,12 @@
           <p class="text-center m-auto font-semibold">Booking</p>
           <div class="w-12"></div>
         </nav>
-        <form action="checkout.html" class="flex flex-col gap-8">
+        <form method="POST" action="{{route('front.book_store', $packageTour->slug)}}"  class="flex flex-col gap-8">
           <div class="flex flex-col gap-3 px-4 ">
+            @csrf
             <p class="font-semibold">Start Date</p>
             <div class="flex items-center gap-[10px] bg-white p-[16px_24px] rounded-[37px]  transition-all duration-300">
-              <input type="date" name="" id="" class="appearance-none outline-none w-full relative text-sm tracking-035 leading-[22px] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:opacity-0">
+              <input type="date" name="start_date" id="start_date" class="appearance-none outline-none w-full relative text-sm tracking-035 leading-[22px] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:opacity-0">
               <div class="w-6 h-6 flex shrink-0">
                 <img src="{{asset ('assets/icons/calendar-blue.svg') }}" class="w-full h-full" alt="icon">
               </div>
